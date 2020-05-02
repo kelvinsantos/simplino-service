@@ -1,0 +1,21 @@
+version: "2.1"
+services:
+  web:
+    build: .
+    command: bash -c "npm install && NODE_ENV=${NODE_ENV:-production} npm run start"
+    volumes:
+      - ./:/app/
+      - ./node_modules/:/app/node_modules/
+    ports:
+      - "${SERVER_PORT:-8080}:${SERVER_PORT:-8080}"
+      - 80:80
+    links:
+      - mongo
+      
+  mongo:
+    image: mongo:4.2.1-bionic
+    volumes:
+      - ./mongo-data/:/data/db/
+      - ./mongo-backup/:/mongo-backup/
+    ports:
+      - "27017:27017"

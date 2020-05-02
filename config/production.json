@@ -1,0 +1,19 @@
+{
+  "server": {
+    "port": 3000
+  },
+  "mongo": {
+    "host": "mongo",
+    "databaseName": "whyq"
+  },
+  "log4js": {
+    "appenders": {
+      "default": { "type": "file", "filename": "./logs/info.log" },
+      "debug": { "type": "file", "filename": "./logs/debug.log" }
+    },
+    "categories": {
+      "default": { "appenders": ["default"], "level": "info" },
+      "debug": { "appenders": ["debug"], "level": "debug" }
+    }
+  }
+}

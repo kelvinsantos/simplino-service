@@ -1,0 +1,177 @@
+{
+	"openapi": "3.0.0",
+	"info": {
+			"version": "1.0.0",
+			"title": "Side Chatter Service",
+			"description": "Side Chatter Service",
+			"license": {
+					"name": "MIT",
+					"url": "https://opensource.org/licenses/MIT"
+			}
+	},
+	"consumes": [
+		"application/json"
+	],
+	"produces": [
+			"application/json"
+	],
+	"paths": {
+		"/orgs/:organization/comments": {
+			"get": {
+				"summary": "Get all comments of the organization",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/definitions/GetCommentsResponseDefinition"
+								}
+							}
+						}
+					},
+					"422": {
+						"description": "Failed. Something went wrong."
+					}
+				}
+			},
+			"post": {
+				"summary": "Insert new comment for the organization",
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/definitions/PostCommentsRequestDefinition"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/definitions/_id"
+								}
+							}
+						}
+					},
+					"422": {
+						"description": "Failed. Something went wrong."
+					}
+				}
+			},
+			"delete": {
+				"summary": "Delete all comments of the organization",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/definitions/DeleteCommentsResponseDefinition"
+								}
+							}
+						}
+					},
+					"422": {
+						"description": "Failed. Something went wrong."
+					}
+				}
+			}
+		},
+		"/orgs/:organization/members": {
+			"get": {
+				"summary": "Get all members of the organization",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/definitions/GetMembersResponseDefinition"
+								}
+							}
+						}
+					},
+					"422": {
+						"description": "Failed. Something went wrong."
+					}
+				}
+			}
+		}
+	},
+	"definitions": {
+		"_id": {
+			"properties": {
+					"uuid": {
+							"type": "string"
+					}
+			}
+		},
+		"GetCommentsResponseDefinition": {
+				"type": "object",
+				"properties": {
+					"_id": {
+						"type": "string"
+					},
+					"organization": {
+						"type": "string"
+					},
+					"comment": {
+						"type": "string"
+					},
+					"createdAt": {
+						"type": "string"
+					},
+					"updatedAt": {
+						"type": "string"
+					},
+					"__v": {
+						"type": "integer"
+					}
+				}
+		},
+		"PostCommentsRequestDefinition": {
+			"type": "object",
+			"properties": {
+				"comment": {
+					"type": "string"
+				}
+			}
+		},
+		"DeleteCommentsResponseDefinition": {
+			"type": "object",
+			"properties": {
+				"n": {
+					"type": "integer"
+				},
+				"nModified": {
+					"type": "integer"
+				},
+				"ok": {
+					"type": "integer"
+				}
+			}
+		},
+		"GetMembersResponseDefinition": {
+			"type": "object",
+			"properties": {
+				"login": {
+					"type": "string"
+				},
+				"avatar_url": {
+					"type": "string"
+				},
+				"number_of_followers": {
+					"type": "integer"
+				},
+				"number_of_following": {
+					"type": "integer"
+				}
+			}
+		}
+	}
+}
