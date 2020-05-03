@@ -1,10 +1,10 @@
 import { Request, Response, NextFunction } from "express";
 
 // import commands
-import UserCommands from "../../store/commands/user/user-commands";
+import UserCommands from "../../services/commands/user/user-commands";
 
 // import queries
-import UserQueries from "../../store/queries/user/user-queries";
+import UserQueries from "../../services/queries/user/user-queries";
 
 // import types
 import { UserRequest } from "../../types/user/user-types"
@@ -19,7 +19,7 @@ import { UserRequest } from "../../types/user/user-types"
 class UserHandler {
   public async get(req: Request, res: Response, next: NextFunction) {
     const input: UserRequest = {
-      email: req.query.email
+      id: req.params.id
     }
     const userQuery = new UserQueries();
     await userQuery.getUser(input).then((user: any) => {
@@ -45,7 +45,8 @@ class UserHandler {
   }
   public async update(req: Request, res: Response, next: NextFunction) {
     const input: UserRequest = {
-      email: req.query.email,
+      id: req.params.id,
+      email: req.body.email,
       first_name: req.body.first_name,
       last_name: req.body.last_name,
       mobile_number: req.body.mobile_number,
@@ -60,7 +61,7 @@ class UserHandler {
   }
   public async delete(req: Request, res: Response, next: NextFunction) {
     const input: UserRequest = {
-      email: req.query.email
+      id: req.params.id,
     }
     const userQuery = new UserCommands();
     await userQuery.deleteUser(input).then(deletedUser => {

@@ -13,7 +13,7 @@ import userRoutes from "./routes/user-routes"
 log4js.configure(config.get("log4js"));
 
 // configure database
-const databaseUrl = "mongodb://" + config.get("mongo.host") + ":27017/" + config.get("mongo.databaseName");
+const databaseUrl = "mongodb://" + config.get("mongo.host") + "/" + config.get("mongo.databaseName");
 // tslint:disable-next-line:no-console
 console.log("Try to connect to database: " + databaseUrl);
 mongoose.Promise = global.Promise;

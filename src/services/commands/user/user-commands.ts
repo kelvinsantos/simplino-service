@@ -1,11 +1,14 @@
 import log4js from "log4js";
-const logger = log4js.getLogger("info");
+const logger = log4js.getLogger("user-services");
 
 // import schemas
 import User from "../../../schemas/user"
 
 // import types
 import { UserRequest } from "../../../types/user/user-types"
+
+// import utils
+import AuthUtils from "../../../utils/auth-utils";
 
 /**
  * @module user-commands.ts
@@ -23,35 +26,35 @@ class UserCommands {
         first_name: requestParams.first_name,
         last_name: requestParams.last_name,
         mobile_number: requestParams.mobile_number,
-        password: requestParams.password,
+        password: await new AuthUtils().hashPassword(requestParams.password),
         is_deleted: false,
       });
-      newUser.save()
+      newUser.save();
       return newUser._id;
     } catch (error) {
-      logger.error("There is something wrong while inserting user.", error);
+      logger.debug("There is something wrong while inserting user.", error);
       return Promise.reject(error);
     }
   }
   public async updateUser(requestParams: UserRequest) {
     logger.info("Called updateUser with request parameters:", requestParams);
     try {
-      const updatedUser = User.findOneAndUpdate({ email: requestParams.email }, {
+      const updatedUser = User.findOneAndUpdate({ _id: requestParams.id }, {
         first_name: requestParams.first_name,
         last_name: requestParams.last_name
       }, { upsert: true, new: true });
       return updatedUser;
     } catch (error) {
-      logger.error("There is something wrong while updating user.", error);
+      logger.debug("There is something wrong while updating user.", error);
       return Promise.reject(error);
     }
   }
   public async deleteUser(requestParams: UserRequest) {
     logger.info("Called deleteUser with request parameters:", requestParams);
     try {
-      return await User.updateOne({ email: requestParams.email, is_deleted: { $ne: true } }, { "$set": { "is_deleted": true } })
+      return await User.updateOne({ _id: requestParams.id, is_deleted: { $ne: true } }, { "$set": { "is_deleted": true } })
     } catch (error) {
-      logger.error("There is something wrong while deleting user.", error);
+      logger.debug("There is something wrong while deleting user.", error);
       return Promise.reject(error);
     }
   }

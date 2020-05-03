@@ -3,17 +3,7 @@
     "port": 3000
   },
   "mongo": {
-    "host": "mongo",
-    "databaseName": "whyq"
-  },
-  "log4js": {
-    "appenders": {
-      "default": { "type": "file", "filename": "./logs/info.log" },
-      "debug": { "type": "file", "filename": "./logs/debug.log" }
-    },
-    "categories": {
-      "default": { "appenders": ["default"], "level": "info" },
-      "debug": { "appenders": ["debug"], "level": "debug" }
-    }
+    "host": "whyq:Mouse123@ds121599.mlab.com:21599",
+    "databaseName": "heroku_nsb0mwqr"
   }
 }

@@ -1,5 +1,5 @@
 import log4js from "log4js";
-const logger = log4js.getLogger("info");
+const logger = log4js.getLogger("user-services");
 
 // import schemas
 import User from "../../../schemas/user"
@@ -18,10 +18,10 @@ class UserQueries {
   public async getUser(requestParams: UserRequest) {
     logger.info("Called getUser with request parameters:", requestParams);
     try {
-      const user = await User.find({ organization: requestParams.email, is_deleted: { $ne: true } });
+      const user = await User.find({ _id: requestParams.id, is_deleted: { $ne: true } });
       return user;
     } catch (error) {
-      logger.error("There is something wrong while getting user.", error);
+      logger.debug("There is something wrong while getting user.", error);
       return Promise.reject(error);
     }
   }
