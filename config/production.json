@@ -1,9 +1,5 @@
 {
   "server": {
-    "port": 3000
-  },
-  "mongo": {
-    "host": "whyq:Mouse123@ds121599.mlab.com:21599",
-    "databaseName": "heroku_nsb0mwqr"
+    "port": 80
   }
 }
