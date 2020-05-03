@@ -46,8 +46,7 @@
     "prestart": "npm run build",
     "start": "node dist/index.js",
     "start-dev": "NODE_ENV=${NODE_ENV:-development} nodemon --watch 'src/**/*.ts' --ignore 'src/**/*.spec.ts' --exec 'ts-node' src/index.ts",
-    "test": "NODE_ENV=${NODE_ENV:-test} mocha -r ts-node/register tests/**/*.spec.ts",
-    "heroku-postbuild": "npm run build"
+    "test": "NODE_ENV=${NODE_ENV:-test} mocha -r ts-node/register tests/**/*.spec.ts"
   },
   "keywords": [],
   "author": "",
