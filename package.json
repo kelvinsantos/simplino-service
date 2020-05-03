@@ -44,8 +44,10 @@
     "prebuild": "tslint -c tslint.json -p tsconfig.json --fix",
     "build": "NODE_ENV=${NODE_ENV:-development} tsc",
     "prestart": "npm run build",
-    "start": "NODE_ENV=${NODE_ENV:-development} nodemon --watch 'src/**/*.ts' --ignore 'src/**/*.spec.ts' --exec 'ts-node' src/index.ts",
-    "test": "NODE_ENV=${NODE_ENV:-test} mocha -r ts-node/register tests/**/*.spec.ts"
+    "start": "node build/index.js",
+    "start-dev": "NODE_ENV=${NODE_ENV:-development} nodemon --watch 'src/**/*.ts' --ignore 'src/**/*.spec.ts' --exec 'ts-node' src/index.ts",
+    "test": "NODE_ENV=${NODE_ENV:-test} mocha -r ts-node/register tests/**/*.spec.ts",
+    "heroku-postbuild": "npm run build"
   },
   "keywords": [],
   "author": "",
