@@ -31,7 +31,7 @@ mongoose.set('useCreateIndex', true);
 
 // port is now available to the Node.js runtime
 // as if it were an environment variable
-const port = config.get("server.port");
+const port = process.env.PORT || config.get("server.port");
 
 const app = express();
 
