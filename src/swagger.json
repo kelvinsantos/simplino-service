@@ -2,8 +2,8 @@
 	"openapi": "3.0.0",
 	"info": {
 			"version": "1.0.0",
-			"title": "Side Chatter Service",
-			"description": "Side Chatter Service",
+			"title": "Simplino Service",
+			"description": "Simplino Service",
 			"license": {
 					"name": "MIT",
 					"url": "https://opensource.org/licenses/MIT"
@@ -16,16 +16,16 @@
 			"application/json"
 	],
 	"paths": {
-		"/orgs/:organization/comments": {
+		"/api/user/:userId": {
 			"get": {
-				"summary": "Get all comments of the organization",
+				"summary": "Get a user data",
 				"responses": {
 					"200": {
 						"description": "OK",
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/definitions/GetCommentsResponseDefinition"
+									"$ref": "#/definitions/GetUserResponseDefinition"
 								}
 							}
 						}
@@ -36,13 +36,41 @@
 				}
 			},
 			"post": {
-				"summary": "Insert new comment for the organization",
+				"summary": "Insert a new user",
 				"requestBody": {
 					"required": true,
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/definitions/PostCommentsRequestDefinition"
+								"$ref": "#/definitions/PostUserRequestDefinition"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/definitions/_id"
+								}
+							}
+						}
+					},
+					"422": {
+						"description": "Failed. Something went wrong."
+					}
+				}
+			},
+			"put": {
+				"summary": "Update a new user",
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/definitions/PutUserRequestDefinition"
 							}
 						}
 					}
@@ -64,34 +92,14 @@
 				}
 			},
 			"delete": {
-				"summary": "Delete all comments of the organization",
+				"summary": "Delete a user",
 				"responses": {
 					"200": {
 						"description": "OK",
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/definitions/DeleteCommentsResponseDefinition"
-								}
-							}
-						}
-					},
-					"422": {
-						"description": "Failed. Something went wrong."
-					}
-				}
-			}
-		},
-		"/orgs/:organization/members": {
-			"get": {
-				"summary": "Get all members of the organization",
-				"responses": {
-					"200": {
-						"description": "OK",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/definitions/GetMembersResponseDefinition"
+									"$ref": "#/definitions/DeleteUserResponseDefinition"
 								}
 							}
 						}
@@ -111,16 +119,25 @@
 					}
 			}
 		},
-		"GetCommentsResponseDefinition": {
+		"GetUserResponseDefinition": {
 				"type": "object",
 				"properties": {
 					"_id": {
 						"type": "string"
 					},
-					"organization": {
+					"email": {
 						"type": "string"
 					},
-					"comment": {
+					"first_name": {
+						"type": "string"
+					},
+					"last_name": {
+						"type": "string"
+					},
+					"mobile_number": {
+						"type": "string"
+					},
+					"is_deleted": {
 						"type": "string"
 					},
 					"createdAt": {
@@ -134,15 +151,47 @@
 					}
 				}
 		},
-		"PostCommentsRequestDefinition": {
+		"PostUserRequestDefinition": {
 			"type": "object",
 			"properties": {
-				"comment": {
+				"email": {
+					"type": "string"
+				},
+				"first_name": {
+					"type": "string"
+				},
+				"last_name": {
+					"type": "string"
+				},
+				"mobile_number": {
+					"type": "string"
+				},
+				"password": {
 					"type": "string"
 				}
 			}
 		},
-		"DeleteCommentsResponseDefinition": {
+		"PutUserRequestDefinition": {
+			"type": "object",
+			"properties": {
+				"email": {
+					"type": "string"
+				},
+				"first_name": {
+					"type": "string"
+				},
+				"last_name": {
+					"type": "string"
+				},
+				"mobile_number": {
+					"type": "string"
+				},
+				"password": {
+					"type": "string"
+				}
+			}
+		},
+		"DeleteUserResponseDefinition": {
 			"type": "object",
 			"properties": {
 				"n": {
@@ -152,23 +201,6 @@
 					"type": "integer"
 				},
 				"ok": {
-					"type": "integer"
-				}
-			}
-		},
-		"GetMembersResponseDefinition": {
-			"type": "object",
-			"properties": {
-				"login": {
-					"type": "string"
-				},
-				"avatar_url": {
-					"type": "string"
-				},
-				"number_of_followers": {
-					"type": "integer"
-				},
-				"number_of_following": {
 					"type": "integer"
 				}
 			}

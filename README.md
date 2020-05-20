@@ -1,4 +1,4 @@
-# Side Chatter Service
+# Simplino Service
 
 ## Development Build Setup
 
