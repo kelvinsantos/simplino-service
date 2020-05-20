@@ -21,8 +21,8 @@ class UserHandler {
     const input: UserRequest = {
       id: req.params.id
     }
-    const userQuery = new UserQueries();
-    await userQuery.getUser(input).then((user: any) => {
+    const userQueries = new UserQueries();
+    await userQueries.getUser(input).then((user: any) => {
       return res.status(200).json(user);
     }).catch(error => {
       return res.status(422).send(error);
@@ -36,8 +36,8 @@ class UserHandler {
       mobile_number: req.body.mobile_number,
       password: req.body.password
     }
-    const userCommand = new UserCommands();
-    await userCommand.insertUser(input).then(insertUser => {
+    const userCommands = new UserCommands();
+    await userCommands.insertUser(input).then(insertUser => {
       return res.status(200).json({ _id: insertUser });
     }).catch(error => {
       return res.status(422).send(error);
@@ -52,8 +52,8 @@ class UserHandler {
       mobile_number: req.body.mobile_number,
       password: req.body.password
     }
-    const userCommand = new UserCommands();
-    userCommand.updateUser(input).then((updatedUser: any) => {
+    const userCommands = new UserCommands();
+    userCommands.updateUser(input).then((updatedUser: any) => {
       return res.status(200).json(updatedUser);
     }).catch((error: any) => {
       return res.status(422).send(error);
@@ -63,8 +63,8 @@ class UserHandler {
     const input: UserRequest = {
       id: req.params.id,
     }
-    const userQuery = new UserCommands();
-    await userQuery.deleteUser(input).then(deletedUser => {
+    const userQueries = new UserCommands();
+    await userQueries.deleteUser(input).then(deletedUser => {
       return res.status(200).json(deletedUser);
     }).catch(error => {
       return res.status(422).send(error);

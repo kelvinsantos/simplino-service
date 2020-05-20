@@ -6,28 +6,56 @@ import log4js from "log4js";
 import config from "config";
 import swaggerUi from "swagger-ui-express";
 import swaggerDocument from './swagger.json';
+import { MongoMemoryServer } from 'mongodb-memory-server';
 
 import userRoutes from "./routes/user-routes"
 
 // configure logger
 log4js.configure(config.get("log4js"));
 
-// configure database
-let databaseUrl = "mongodb://" + config.get("mongo.host") + "/" + config.get("mongo.databaseName");
-if (process.env.NODE_ENV === "production") {
-  databaseUrl = process.env.MONGODB_URI;
-}
 
-// tslint:disable-next-line:no-console
-console.log("Try to connect to database: " + databaseUrl);
-mongoose.Promise = global.Promise;
-mongoose
-  .connect(databaseUrl, { useNewUrlParser: true, useUnifiedTopology: true })
-  .catch((err: Error) => {
-    // tslint:disable-next-line:no-console
-    console.log("Could not connect to database:", err);
+
+if (process.env.NODE_ENV === "test") {
+  const mongoServer = new MongoMemoryServer();
+  mongoServer.getUri().then((mongoUri) => {
+    const mongooseOpts = {
+      // options for mongoose 4.11.3 and above
+      autoReconnect: true,
+      reconnectTries: Number.MAX_VALUE,
+      reconnectInterval: 1000
+    };
+    mongoose.connect(mongoUri, mongooseOpts);
+  
+    mongoose.connection.on('error', (e) => {
+      if (e.message.code === 'ETIMEDOUT') {
+        console.log(e);
+        mongoose.connect(mongoUri, mongooseOpts);
+      }
+      console.log(e);
+    });
+  
+    mongoose.connection.once('open', () => {
+      console.log(`MongoDB successfully connected to ${mongoUri}`);
+    });
   });
-mongoose.set('useCreateIndex', true);
+} else {
+  // configure database
+  let databaseUrl = "mongodb://" + config.get("mongo.host") + "/" + config.get("mongo.databaseName");
+  if (process.env.NODE_ENV === "production") {
+    databaseUrl = process.env.MONGODB_URI;
+  }
+
+  // tslint:disable-next-line:no-console
+  console.log("Try to connect to database: " + databaseUrl);
+  mongoose.Promise = global.Promise;
+  mongoose
+    .connect(databaseUrl, { useNewUrlParser: true, useUnifiedTopology: true })
+    .catch((err: Error) => {
+      // tslint:disable-next-line:no-console
+      console.log("Could not connect to database:", err);
+    });
+  mongoose.set('useCreateIndex', true);
+}
 
 // port is now available to the Node.js runtime
 // as if it were an environment variable
