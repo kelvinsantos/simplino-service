@@ -16,9 +16,20 @@
 			"application/json"
 	],
 	"paths": {
-		"/api/user/:userId": {
+		"/api/user/{userId}": {
 			"get": {
 				"summary": "Get a user data",
+				"parameters": [
+					{
+						"in": "path",
+						"name": "userId",
+						"schema": {
+							"type": "string"
+						},
+						"required": true,
+						"description": "UUID of the user to get"
+					}
+				],
 				"responses": {
 					"200": {
 						"description": "OK",
@@ -26,34 +37,6 @@
 							"application/json": {
 								"schema": {
 									"$ref": "#/definitions/GetUserResponseDefinition"
-								}
-							}
-						}
-					},
-					"422": {
-						"description": "Failed. Something went wrong."
-					}
-				}
-			},
-			"post": {
-				"summary": "Insert a new user",
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/definitions/PostUserRequestDefinition"
-							}
-						}
-					}
-				},
-				"responses": {
-					"200": {
-						"description": "OK",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/definitions/_id"
 								}
 							}
 						}
@@ -100,6 +83,36 @@
 							"application/json": {
 								"schema": {
 									"$ref": "#/definitions/DeleteUserResponseDefinition"
+								}
+							}
+						}
+					},
+					"422": {
+						"description": "Failed. Something went wrong."
+					}
+				}
+			}
+		},
+		"/api/user": {
+			"post": {
+				"summary": "Insert a new user",
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/definitions/PostUserRequestDefinition"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/definitions/_id"
 								}
 							}
 						}

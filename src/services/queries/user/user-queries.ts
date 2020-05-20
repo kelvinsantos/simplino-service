@@ -18,7 +18,7 @@ class UserQueries {
   public async getUser(requestParams: UserRequest) {
     logger.info("Called getUser with request parameters:", requestParams);
     try {
-      const user = await User.find({ _id: requestParams.id, is_deleted: { $ne: true } });
+      const user = await User.findOne({ _id: requestParams.id, is_deleted: { $ne: true } });
       return user;
     } catch (error) {
       logger.debug("There is something wrong while getting user.", error);
