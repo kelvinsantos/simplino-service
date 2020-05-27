@@ -4,6 +4,6 @@
   },
   "mongo": {
     "host": "mongo",
-    "databaseName": "whyq_test"
+    "databaseName": "simplino_test"
   }
 }

@@ -20,5 +20,6 @@
     "github": {
       "githubApiBaseUrl": "https://api.github.com"
     }
-  }
+  },
+  "simplinoAuthBaseUrl": "http://localhost:9090"
 }
