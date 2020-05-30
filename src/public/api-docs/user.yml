@@ -1,0 +1,155 @@
+---
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Simplino Service
+  description: Simplino Service
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+consumes:
+- application/json
+produces:
+- application/json
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+security:
+  - BearerAuth: []
+paths:
+  "/api/user/{userId}":
+    get:
+      summary: Get a user data
+      parameters:
+      - in: path
+        name: userId
+        schema:
+          type: string
+        required: true
+        description: UUID of the user to get
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                "$ref": "#/definitions/GetUserResponseDefinition"
+        '422':
+          description: Failed. Something went wrong.
+        '401':
+          $ref: '#/definitions/UnauthorizedError'
+    put:
+      summary: Update a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              "$ref": "#/definitions/PutUserRequestDefinition"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                "$ref": "#/definitions/_id"
+        '422':
+          description: Failed. Something went wrong.
+    delete:
+      summary: Delete a user
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                "$ref": "#/definitions/DeleteUserResponseDefinition"
+        '422':
+          description: Failed. Something went wrong.
+  "/api/user":
+    post:
+      summary: Insert a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              "$ref": "#/definitions/PostUserRequestDefinition"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                "$ref": "#/definitions/_id"
+        '422':
+          description: Failed. Something went wrong.
+definitions:
+  _id:
+    properties:
+      uuid:
+        type: string
+  GetUserResponseDefinition:
+    type: object
+    properties:
+      _id:
+        type: string
+      email:
+        type: string
+      first_name:
+        type: string
+      last_name:
+        type: string
+      mobile_number:
+        type: string
+      is_deleted:
+        type: string
+      createdAt:
+        type: string
+      updatedAt:
+        type: string
+      __v:
+        type: integer
+  PostUserRequestDefinition:
+    type: object
+    properties:
+      email:
+        type: string
+      first_name:
+        type: string
+      last_name:
+        type: string
+      mobile_number:
+        type: string
+      password:
+        type: string
+  PutUserRequestDefinition:
+    type: object
+    properties:
+      email:
+        type: string
+      first_name:
+        type: string
+      last_name:
+        type: string
+      mobile_number:
+        type: string
+      password:
+        type: string
+  DeleteUserResponseDefinition:
+    type: object
+    properties:
+      n:
+        type: integer
+      nModified:
+        type: integer
+      ok:
+        type: integer
+  UnauthorizedError:
+    description: Authentication information is missing or invalid
+    headers:
+      WWW_Authenticate:
+        schema:
+          type: string

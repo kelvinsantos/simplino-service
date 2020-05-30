@@ -1,5 +1,7 @@
 // Load schemas
 import User from "../src/schemas/user";
+import Establishment from "../src/schemas/establishment";
+import Queue from "../src/schemas/queue";
 
 class TestUtil {
   /**
@@ -19,7 +21,9 @@ class TestUtil {
    */
   static cleanDatabase() {
     return Promise.all([
-      User.remove({}).exec()
+      User.remove({}).exec(),
+      Establishment.remove({}).exec(),
+      Queue.remove({}).exec()
     ]);
   }
 

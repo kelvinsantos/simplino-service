@@ -1,0 +1,162 @@
+---
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Simplino Service
+  description: Simplino Service
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+consumes:
+- application/json
+produces:
+- application/json
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+security:
+  - BearerAuth: []
+paths:
+  "/api/queue/{queueId}":
+    get:
+      summary: Get a queue data
+      parameters:
+      - in: header
+        name: Authorization
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: queueId
+        schema:
+          type: string
+        required: true
+        description: UUID of the queue to get
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                "$ref": "#/definitions/GetQueueResponseDefinition"
+        '422':
+          description: Failed. Something went wrong.
+        '401':
+          $ref: '#/definitions/UnauthorizedError'
+    put:
+      summary: Update a new queue
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              "$ref": "#/definitions/PutQueueRequestDefinition"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                "$ref": "#/definitions/_id"
+        '422':
+          description: Failed. Something went wrong.
+    delete:
+      summary: Delete a queue
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                "$ref": "#/definitions/DeleteQueueResponseDefinition"
+        '422':
+          description: Failed. Something went wrong.
+  "/api/queue":
+    post:
+      summary: Insert a new queue
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              "$ref": "#/definitions/PostQueueRequestDefinition"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                "$ref": "#/definitions/_id"
+        '422':
+          description: Failed. Something went wrong.
+definitions:
+  _id:
+    properties:
+      uuid:
+        type: string
+  GetQueueResponseDefinition:
+    type: object
+    properties:
+      _id:
+        type: object
+      user:
+        type: object
+      establishment:
+        type: string
+      position_in_queue:
+        type: string
+      waiting_time:
+        type: string
+      coordinates:
+        type: object
+      is_deleted:
+        type: string
+      createdAt:
+        type: string
+      updatedAt:
+        type: string
+      __v:
+        type: integer
+  PostQueueRequestDefinition:
+    type: object
+    properties:
+      user:
+        type: string
+      establishment:
+        type: string
+      position_in_queue:
+        type: string
+      waiting_time:
+        type: string
+      coordinates:
+        type: object
+  PutQueueRequestDefinition:
+    type: object
+    properties:
+      user:
+        type: string
+      establishment:
+        type: string
+      position_in_queue:
+        type: string
+      waiting_time:
+        type: string
+      coordinates:
+        type: object
+  DeleteQueueResponseDefinition:
+    type: object
+    properties:
+      n:
+        type: integer
+      nModified:
+        type: integer
+      ok:
+        type: integer
+  UnauthorizedError:
+    description: Authentication information is missing or invalid
+    headers:
+      WWW_Authenticate:
+        schema:
+          type: string

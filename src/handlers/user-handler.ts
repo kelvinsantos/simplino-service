@@ -1,13 +1,13 @@
 import { Request, Response, NextFunction } from "express";
 
 // import commands
-import UserCommands from "../../services/commands/user/user-commands";
+import UserCommands from "../services/commands/user/user-commands";
 
 // import queries
-import UserQueries from "../../services/queries/user/user-queries";
+import UserQueries from "../services/queries/user/user-queries";
 
 // import types
-import { UserRequest } from "../../types/user/user-types"
+import { UserRequest } from "../types/user-types"
 
 /**
  * @module user-handler.ts

@@ -5,7 +5,7 @@ const logger = log4js.getLogger("user-services");
 import User from "../../../schemas/user"
 
 // import types
-import { UserRequest } from "../../../types/user/user-types"
+import { UserRequest } from "../../../types/user-types"
 
 // import utils
 import AuthUtils from "../../../utils/auth-utils";
@@ -36,13 +36,17 @@ class UserCommands {
       return Promise.reject(error);
     }
   }
-  public async updateUser(requestParams: UserRequest) {
+  public async updateUser(requestParams: any) {
     logger.info("Called updateUser with request parameters:", requestParams);
     try {
-      const updatedUser = User.findOneAndUpdate({ _id: requestParams.id }, {
-        first_name: requestParams.first_name,
-        last_name: requestParams.last_name
-      }, { upsert: true, new: true });
+      // PATCH update - update only the fields which are supplied on request body
+      let query: any = {$set: {}};
+      for (let key in requestParams) {
+        if (requestParams[key])
+          query.$set[key] = requestParams[key];
+      }
+
+      const updatedUser = User.findOneAndUpdate({ _id: requestParams.id }, query, { upsert: true, new: true });
       return updatedUser;
     } catch (error) {
       logger.debug("There is something wrong while updating user.", error);

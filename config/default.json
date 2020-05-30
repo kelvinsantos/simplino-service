@@ -9,11 +9,15 @@
   "log4js": {
     "appenders": {
       "default": { "type": "file", "filename": "./logs/info.log" },
-      "user-services": { "type": "file", "filename": "./logs/user-services.log" }
+      "user-services": { "type": "file", "filename": "./logs/user-services.log" },
+      "establishment-services": { "type": "file", "filename": "./logs/establishment-services.log" },
+      "queue-services": { "type": "file", "filename": "./logs/queue-services.log" }
     },
     "categories": {
       "default": { "appenders": ["default"], "level": "info" },
-      "user-services": { "appenders": ["user-services"], "level": "debug" }
+      "user-services": { "appenders": ["user-services"], "level": "debug" },
+      "establishment-services": { "appenders": ["establishment-services"], "level": "debug" },
+      "queue-services": { "appenders": ["queue-services"], "level": "debug" }
     }
   },
   "thirdPartyApi": {
@@ -21,5 +25,6 @@
       "githubApiBaseUrl": "https://api.github.com"
     }
   },
+  "simplinoApiBaseUrl": "http://localhost:3000",
   "simplinoAuthBaseUrl": "http://localhost:9090"
 }

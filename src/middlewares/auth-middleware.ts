@@ -4,7 +4,7 @@ import config from "config";
 class AuthMiddleware {
   public async validateToken(req: any, res: any, next: any) {
     if (process.env.NODE_ENV !== "test") {
-      let token = req.get("Token");
+      let token = req.get("Authorization");
       if (!token) {
         return res.sendStatus(401);
       }
@@ -13,11 +13,11 @@ class AuthMiddleware {
         url: `${config.get("simplinoAuthBaseUrl")}/authenticator/verify`,
         method: "POST",
         json: true,
-        body: {
-          "token": token
+        headers: {
+          'Authorization': token
         }
       };
-  
+
       request.post(options, (err, response, body) => {
         if (!body) {
           return res.sendStatus(401);

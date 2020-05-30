@@ -4,16 +4,17 @@ import cors from "cors";
 import mongoose from "mongoose";
 import log4js from "log4js";
 import config from "config";
+import path from "path";
 import swaggerUi from "swagger-ui-express";
-import swaggerDocument from './swagger.json';
+// import swaggerDocument from './swagger.json';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 
 import userRoutes from "./routes/user-routes"
+import establishmentRoutes from "./routes/establishment-routes"
+import queueRoutes from "./routes/queue-routes"
 
 // configure logger
 log4js.configure(config.get("log4js"));
-
-
 
 if (process.env.NODE_ENV === "test") {
   const mongoServer = new MongoMemoryServer();
@@ -85,10 +86,40 @@ app.get("/", (req, res) => {
   res.send("Hello world!");
 } );
 
-app.use("/api", userRoutes);
+// initialize all api routes
+app.use("/api", [
+  userRoutes, 
+  establishmentRoutes, 
+  queueRoutes
+]);
+
+app.use(express.static(path.join(__dirname, 'public')));
+
+let options = {
+  explorer: true,
+  swaggerOptions: {
+    urls: [
+      {
+        url: `${config.get("simplinoApiBaseUrl")}/api-docs/user.yml`,
+        name: 'User'
+      },
+      {
+        url: `${config.get("simplinoApiBaseUrl")}/api-docs/establishment.yml`,
+        name: 'Establishment'
+      },
+      {
+        url: `${config.get("simplinoApiBaseUrl")}/api-docs/queue.yml`,
+        name: 'Queue'
+      }
+    ]
+  }
+};
+
+//Show swagger documentation only for local development instance
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(null, options));
 
 // swaggerUI
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+// app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // start the Express server
 app.listen(port, () => {

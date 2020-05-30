@@ -1,7 +1,7 @@
 import 'mocha';
 import { expect } from 'chai';
 import sinon from "sinon";
-import testUtil from "../../../tests/test-util";
+import testUtil from "../../test-util";
 
 // import index.ts
 import "../../../src/index";
@@ -10,7 +10,7 @@ import "../../../src/index";
 import UserCommands from "../../../src/services/commands/user/user-commands";
 
 // import types
-import { UserRequest } from "../../../src/types/user/user-types"
+import { UserRequest } from "../../../src/types/user-types"
 
 // import utils
 import AuthUtils from "../../../src/utils/auth-utils";
@@ -22,7 +22,12 @@ let userCommands: UserCommands;
 // Global variables
 let user: any;
 
-describe('user-commands.spec.ts', () => { 
+describe('user-commands.spec.ts', () => {
+    before(async () => {
+      // initialize database
+      await testUtil.initDatabase(true);
+    });
+
     beforeEach(async () => {
       sandbox = sinon.createSandbox();
 

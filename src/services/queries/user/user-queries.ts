@@ -5,7 +5,10 @@ const logger = log4js.getLogger("user-services");
 import User from "../../../schemas/user"
 
 // import types
-import { UserRequest } from "../../../types/user/user-types"
+import { UserRequest } from "../../../types/user-types"
+
+// import utils
+import AuthUtils from "../../../utils/auth-utils";
 
 /**
  * @module user-queries.ts

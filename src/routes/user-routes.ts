@@ -8,7 +8,7 @@ import RouterUtil from "../utils/router-utils";
 import AuthMiddleware from "../middlewares/auth-middleware";
 
 // import handlers
-import UserHandler from "../handlers/user/user-handler";
+import UserHandler from "../handlers/user-handler";
 
 const routerUtil = new RouterUtil(router);
 
